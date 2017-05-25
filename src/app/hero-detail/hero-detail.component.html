@@ -42,4 +42,6 @@
   </div>
 </form>
 <p>Form value: {{ heroForm.value | json }}</p>
+<p>Name Value: {{ heroForm.get('name').value }}</p>
+<p>Street Value: {{ heroForm.get('address.street').value }}</p>
 <p>Form status: {{ heroForm.status | json }}</p>
