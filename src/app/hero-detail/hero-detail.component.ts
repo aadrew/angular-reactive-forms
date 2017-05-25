@@ -1,7 +1,15 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  Component
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators
+} from '@angular/forms';
 
-import { states } from '../data-model';
+import {
+  states
+} from '../data-model';
 
 @Component({
   selector: 'app-hero-detail',
@@ -11,20 +19,20 @@ import { states } from '../data-model';
 export class HeroDetailComponent {
   heroForm: FormGroup;
   states = states;
-  constructor(private fb: FormBuilder) { 
+  constructor(private fb: FormBuilder) {
     this.createForm();
   }
-  createForm(){
+  createForm() {
     this.heroForm = this.fb.group({
-      name: [ '', Validators.required ],
-      street: '',
-      city: '',
-      state: '',
-      zip: '',
+      name: ['', Validators.required],
+      address: this.fb.group({
+        street: '',
+        city: '',
+        state: '',
+        zip: ''
+      }),
       power: '',
       sidekick: ''
-    })
+    });
   }
 }
-
-// ready for nested formgroups
