@@ -67,4 +67,25 @@ export class HeroDetailComponent implements OnChanges {
       (value: string) => this.nameChangeLog.push(value)
     );
   }
+  onSubmit() {
+    this.hero = this.prepareHero();
+    this.heroService.updateHero(this.hero).subscribe(/* error handling */);
+    this.ngOnChanges();
+  }
+  prepareHero(): Hero {
+    const formModel = this.heroForm.value;
+    const secretLairsDeepCopy: Address[] = formModel.secretLairs.map(
+      (address: Address) => Object.assign({}, address)
+    );
+    const saveHero: Hero = {
+      id: this.hero.id,
+      name: formModel.name as string,
+      // addresses: formModel.secretLairs // <-- bad!
+      addresses: secretLairsDeepCopy
+    };
+    return saveHero;
+  }
+  revert() {
+    this.ngOnChanges();
+  }
 }
