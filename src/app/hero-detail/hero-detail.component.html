@@ -56,4 +56,5 @@
   </div>
 </form>
 <p>Form value: {{ heroForm.value | json }}</p>
-
+<h4>Name Change Log:</h4>
+<div *ngFor="let name of nameChangeLog">{{name}}</div>

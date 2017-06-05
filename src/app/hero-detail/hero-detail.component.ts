@@ -24,12 +24,13 @@ import {
 export class HeroDetailComponent implements OnChanges {
   @Input() hero: Hero;
   heroForm: FormGroup;
-  nameChangeLog: string[] = [];
   states = states;
+  nameChangeLog: string[] = [];
   constructor(
     private fb: FormBuilder,
     private heroService: HeroService) {
     this.createForm();
+    this.logNameChange();
   }
   createForm() {
     this.heroForm = this.fb.group({
@@ -59,5 +60,11 @@ export class HeroDetailComponent implements OnChanges {
   removeLair(index: number) {
     this.hero.addresses.splice(index, 1);
     this.setAddresses(this.hero.addresses);
+  }
+  logNameChange() {
+    const nameControl = this.heroForm.get('name');
+    nameControl.valueChanges.forEach(
+      (value: string) => this.nameChangeLog.push(value)
+    );
   }
 }
