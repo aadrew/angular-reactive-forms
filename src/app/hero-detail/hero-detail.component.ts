@@ -4,6 +4,7 @@ import {
   OnChanges
 } from '@angular/core';
 import {
+  FormArray,
   FormBuilder,
   FormGroup,
   Validators
@@ -33,7 +34,7 @@ export class HeroDetailComponent implements OnChanges {
   createForm() {
     this.heroForm = this.fb.group({
       name: ['', Validators.required],
-      address: this.fb.group(new Address()),
+      secretLairs: this.fb.array([]),
       power: '',
       sidekick: ''
     });
@@ -41,7 +42,22 @@ export class HeroDetailComponent implements OnChanges {
   ngOnChanges(): void {
     this.heroForm.reset({
       name: this.hero.name,
-      address: this.hero.addresses[0] || new Address()
     });
+    this.setAddresses(this.hero.addresses);
+  }
+  setAddresses(addresses: Address[]) {
+    const addressFGs = addresses.map(address => this.fb.group(address));
+    const addressFormArray = this.fb.array(addressFGs);
+    this.heroForm.setControl('secretLairs', addressFormArray);
+  }
+  get secretLairs(): FormArray {
+    return this.heroForm.get('secretLairs') as FormArray;
+  }
+  addLair() {
+    this.secretLairs.push(this.fb.group(new Address()));
+  }
+  removeLair(index: number) {
+    this.hero.addresses.splice(index, 1);
+    this.setAddresses(this.hero.addresses);
   }
 }
